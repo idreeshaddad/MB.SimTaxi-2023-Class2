@@ -1,0 +1,27 @@
+.logo {
+    height: 42px;
+}
+
+.section-bg {
+    background-color: #fef8f5;
+}
+
+.btn-orange {
+    background-color: #f9b900 !important;
+}
+
+.section-border-bottom {
+    border-bottom: 1px solid #fce8df !important;
+}
+
+.section-title {
+    color: #99948e;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.section-desc {
+    color: #553d38;
+    font-weight: bold;
+    font-size: 28px;
+}
