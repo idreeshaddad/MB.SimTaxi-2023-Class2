@@ -25,3 +25,15 @@
     font-weight: bold;
     font-size: 28px;
 }
+
+.section-card {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 1rem;
+    text-align: center;
+}
+
+    .section-card .icon {
+        font-size: 38px;
+        color: #f9b900;
+    }

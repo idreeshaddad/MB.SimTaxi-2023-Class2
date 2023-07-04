@@ -1,3 +1,7 @@
 ﻿.btn {
     border-radius: 4px !important;
 }
+
+.accordion-button {
+    background-color: #f7f7f7 !important;
+}
