@@ -47,11 +47,87 @@
         @RenderBody()
     </main>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - MB.SimTaxi.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer>
+
+        <div class="container py-4">
+            <div class="row">
+                <div class="col mb-3">
+                    <h3>Mibax SimTaxi</h3>
+                </div>
+                <div class="col mb-3">
+                    <h5>Section</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                    </ul>
+                </div>
+                <div class="col mb-3">
+                    <h5>Section</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                    </ul>
+                </div>
+                <div class="col mb-3">
+                    <h5>Follow them to nowhere</h5>
+                    <p>Listen to your mom man</p>
+                    <div class="d-flex flex-row social-media-links">
+                        <a class="link" href="#">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                        <a class="link" href="#">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                        <a class="link" href="#">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a class="link" href="#">
+                            <i class="fa-brands fa-skype"></i>
+                        </a>
+                        <a class="link" href="#">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        @*<section class="section-bg py-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h6>&copy; <span class="ft-bold">Mibax</span> All rights reserved.</h6>
+                    </div>
+                    <div class="col">
+                        <h6>&copy; <span class="ft-bold">Mibax</span> All rights reserved.</h6>
+                    </div>
+                    <div class="col">
+                        <h6>&copy; <span class="ft-bold">Mibax</span> All rights reserved.</h6>
+                    </div>
+                    <div class="col text-end">
+                        <<h6>Designed by: <a href="#" class="text-decoration-none text-warning">Mibax</a> </h6>
+                    </div>
+                </div>
+            </div>
+        </section>*@
+
+        <section class="section-bg py-3">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <h6>&copy; <span class="ft-bold">Mibax</span> All rights reserved.</h6>
+                    <h6>Designed by: <a href="#" class="text-decoration-none text-warning">Mibax</a> </h6>
+                </div>
+            </div>
+        </section>
+
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
