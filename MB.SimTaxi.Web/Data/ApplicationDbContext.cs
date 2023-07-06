@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using MB.SimTaxi.Web.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MB.SimTaxi.Web.Data
@@ -9,5 +10,8 @@ namespace MB.SimTaxi.Web.Data
             : base(options)
         {
         }
+
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
     }
 }
