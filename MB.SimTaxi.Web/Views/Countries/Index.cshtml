@@ -33,13 +33,13 @@
                     @Html.DisplayFor(modelItem => item.Code)
                 </td>
                 <td>
-                    <a class="text-decoration-none text-primary" asp-action="Edit" asp-route-id="@item.Id" title="Edit">
+                    <a class="text-decoration-none text-primary" asp-action="Edit" asp-route-id="@item.Id" data-bs-toggle="tooltip" data-bs-title="Edit">
                         <i class="fa-solid fa-pen"></i>
-                    </a> 
-                    <a class="text-decoration-none ms-2 text-info" asp-action="Details" asp-route-id="@item.Id" title="Details">
+                    </a>
+                    <a class="text-decoration-none ms-2 text-info" asp-action="Details" asp-route-id="@item.Id" data-bs-toggle="tooltip" data-bs-title="Details">
                         <i class="fa-solid fa-circle-info"></i>
                     </a>
-                    <a class="text-decoration-none ms-2 text-danger" asp-action="Delete" asp-route-id="@item.Id" title="Delete">
+                    <a class="text-decoration-none ms-2 text-danger" asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="tooltip" data-bs-title="Delete">
                         <i class="fa-solid fa-trash"></i>
                     </a>
                 </td>

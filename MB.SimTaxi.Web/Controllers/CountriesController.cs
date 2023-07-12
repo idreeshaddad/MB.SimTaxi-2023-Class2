@@ -22,9 +22,9 @@ namespace MB.SimTaxi.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return _context.Countries != null ?
-                        View(await _context.Countries.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Countries'  is null.");
+            var countries = await _context.Countries.ToListAsync();
+
+            return View(countries);        
         }
 
         public async Task<IActionResult> Details(int? id)
