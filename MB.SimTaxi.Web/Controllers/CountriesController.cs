@@ -24,7 +24,7 @@ namespace MB.SimTaxi.Web.Controllers
         {
             var countries = await _context.Countries.ToListAsync();
 
-            return View(countries);        
+            return View(countries);  
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -34,8 +34,10 @@ namespace MB.SimTaxi.Web.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var country = await _context
+                                    .Countries
+                                    .FirstOrDefaultAsync(m => m.Id == id);
+
             if (country == null)
             {
                 return NotFound();
