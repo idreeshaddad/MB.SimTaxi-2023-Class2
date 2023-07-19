@@ -12,16 +12,43 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
+
+            <div class="form-group mt-2">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
             <div class="form-group mt-2">
                 <label asp-for="Code" class="control-label"></label>
                 <input asp-for="Code" class="form-control" />
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
+
+            <div class="form-group mt-2">
+                <label asp-for="Capital" class="control-label"></label>
+                <input asp-for="Capital" class="form-control" />
+                <span asp-validation-for="Capital" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-2">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-2">
+                <label asp-for="Declaration" class="control-label"></label>
+                <input asp-for="Declaration" class="form-control" />
+                <span asp-validation-for="Declaration" class="text-danger"></span>
+            </div>
+
             <div class="form-group mt-3">
                 <a class="btn btn-secondary" asp-action="Index">Cancel</a>
                 <input type="submit" value="Create" class="btn btn-primary ms-2" />
@@ -31,5 +58,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

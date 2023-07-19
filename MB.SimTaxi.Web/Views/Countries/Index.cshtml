@@ -14,32 +14,50 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(w => w.Capital)
+            </th>
+            <th>
+                @Html.DisplayNameFor(w => w.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(w => w.FullName)
             </th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var country in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => country.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Code)
+                    @Html.DisplayFor(modelItem => country.Code)
                 </td>
                 <td>
-                    <a class="text-decoration-none text-primary" asp-action="Edit" asp-route-id="@item.Id" data-bs-toggle="tooltip" data-bs-title="Edit">
+                    @Html.DisplayFor(modelItem => country.Capital)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => country.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => country.FullName)
+                </td>
+                <td>
+                    <a class="text-decoration-none text-primary" asp-action="Edit" asp-route-id="@country.Id" data-bs-toggle="tooltip" data-bs-title="Edit">
                         <i class="fa-solid fa-pen"></i>
                     </a>
-                    <a class="text-decoration-none ms-2 text-info" asp-action="Details" asp-route-id="@item.Id" data-bs-toggle="tooltip" data-bs-title="Details">
+                    <a class="text-decoration-none ms-2 text-info" asp-action="Details" asp-route-id="@country.Id" data-bs-toggle="tooltip" data-bs-title="Details">
                         <i class="fa-solid fa-circle-info"></i>
                     </a>
-                    <a class="text-decoration-none ms-2 text-danger" asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="tooltip" data-bs-title="Delete">
+                    <a class="text-decoration-none ms-2 text-danger" asp-action="Delete" asp-route-id="@country.Id" data-bs-toggle="tooltip" data-bs-title="Delete">
                         <i class="fa-solid fa-trash"></i>
                     </a>
                 </td>

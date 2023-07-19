@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using MB.SimTaxi.Web.Data;
 using MB.SimTaxi.Web.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MB.SimTaxi.Web.Controllers
 {
+    //[Authorize]
     public class CountriesController : Controller
     {
         #region Data and Constructors
@@ -20,18 +22,22 @@ namespace MB.SimTaxi.Web.Controllers
 
         #region Actions
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var countries = await _context.Countries.ToListAsync();
+            var countries = await _context
+                                    .Countries
+                                    .ToListAsync();
 
-            return View(countries);  
+            return View(countries);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Countries == null)
+            if (id == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var country = await _context
@@ -46,6 +52,7 @@ namespace MB.SimTaxi.Web.Controllers
             return View(country);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -53,7 +60,7 @@ namespace MB.SimTaxi.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Code")] Country country)
+        public async Task<IActionResult> Create(Country country)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +88,7 @@ namespace MB.SimTaxi.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Code")] Country country)
+        public async Task<IActionResult> Edit(int id, Country country)
         {
             if (id != country.Id)
             {

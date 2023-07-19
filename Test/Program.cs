@@ -4,12 +4,12 @@
     {
         static string firstName = "Sameer";
         static string lastName = "Abu Laila";
-        static DateTime dateOfBirth = new DateTime(1994, 5, 17);
+        static DateTime? dateOfBirth;
 
         static void Main(string[] args)
         {
-            PrintFirstName();
-            PrintFullName();
+            //PrintFirstName();
+            //PrintFullName();
             PrintAllInfo();
         }
 

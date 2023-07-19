@@ -1,18 +1,18 @@
 ﻿@model MB.SimTaxi.Web.Data.Entities.Country
 
 @{
-    ViewData["Title"] = $"Delete {Model.Name}";
+    ViewData["Title"] = $"Delete {Model.Title}";
 }
 
-<h3>Are you sure you want to delete <span class="text-danger">@Model.Name</span>?</h3>
+<h3>Are you sure you want to delete <span class="text-danger">@Model.Title</span>?</h3>
 <div>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Code)
