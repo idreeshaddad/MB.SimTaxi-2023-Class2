@@ -71,6 +71,7 @@ namespace MB.SimTaxi.Web.Controllers
             return View(country);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Countries == null)
@@ -78,11 +79,15 @@ namespace MB.SimTaxi.Web.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries.FindAsync(id);
+            var country = await _context
+                                    .Countries
+                                    .FindAsync(id);
+
             if (country == null)
             {
                 return NotFound();
             }
+
             return View(country);
         }
 
@@ -92,7 +97,7 @@ namespace MB.SimTaxi.Web.Controllers
         {
             if (id != country.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             if (ModelState.IsValid)
@@ -118,6 +123,7 @@ namespace MB.SimTaxi.Web.Controllers
             return View(country);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Countries == null)
