@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using MB.SimTaxi.Web.Data;
 using MB.SimTaxi.Web.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
+using MB.SimTaxi.Web.Models.Countries;
+using AutoMapper;
 
 namespace MB.SimTaxi.Web.Controllers
 {
@@ -12,10 +14,12 @@ namespace MB.SimTaxi.Web.Controllers
         #region Data and Constructors
 
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CountriesController(ApplicationDbContext context)
+        public CountriesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         #endregion
@@ -29,7 +33,9 @@ namespace MB.SimTaxi.Web.Controllers
                                     .Countries
                                     .ToListAsync();
 
-            return View(countries);
+            var countriesVM = _mapper.Map<List<Country>, List<CountryViewModel>>(countries);
+
+            return View(countriesVM);
         }
 
         [AllowAnonymous]
@@ -42,14 +48,16 @@ namespace MB.SimTaxi.Web.Controllers
 
             var country = await _context
                                     .Countries
-                                    .FirstOrDefaultAsync(m => m.Id == id);
+                                    .SingleOrDefaultAsync(country => country.Id == id);
 
             if (country == null)
             {
                 return NotFound();
             }
 
-            return View(country);
+            var countryVM = _mapper.Map<Country, CountryViewModel>(country);
+
+            return View(countryVM);
         }
 
         [HttpGet]
@@ -120,6 +128,7 @@ namespace MB.SimTaxi.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(country);
         }
 
@@ -131,8 +140,10 @@ namespace MB.SimTaxi.Web.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var country = await _context
+                                    .Countries
+                                    .SingleOrDefaultAsync(m => m.Id == id);
+
             if (country == null)
             {
                 return NotFound();
@@ -145,17 +156,15 @@ namespace MB.SimTaxi.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Countries == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Countries'  is null.");
-            }
             var country = await _context.Countries.FindAsync(id);
+
             if (country != null)
             {
                 _context.Countries.Remove(country);
             }
 
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -165,7 +174,7 @@ namespace MB.SimTaxi.Web.Controllers
 
         private bool CountryExists(int id)
         {
-            return (_context.Countries?.Any(e => e.Id == id)).GetValueOrDefault();
+            return _context.Countries.Any(e => e.Id == id);
         } 
 
         #endregion

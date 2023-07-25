@@ -1,53 +1,31 @@
-﻿@model MB.SimTaxi.Web.Data.Entities.Country
+﻿@using MB.SimTaxi.Web.Models.Countries;
+@model CountryViewModel
 
 @{
-    ViewData["Title"] = $"Edit {Model.FullName}";
+    ViewData["Title"] = $"Edit {Model.Name}";
 }
 
-<h1>Edit <span class="text-primary">@Model.FullName</span></h1>
+<h1>Edit <span class="text-primary">@Model.Name</span></h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             
             <input type="hidden" asp-for="Id" />
 
             <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mt-2">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <div class="form-group mt-2">
                 <label asp-for="Code" class="control-label"></label>
                 <input asp-for="Code" class="form-control" />
                 <span asp-validation-for="Code" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mt-2">
-                <label asp-for="Capital" class="control-label"></label>
-                <input asp-for="Capital" class="form-control" />
-                <span asp-validation-for="Capital" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mt-2">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mt-2">
-                <label asp-for="Declaration" class="control-label"></label>
-                <input asp-for="Declaration" class="form-control" />
-                <span asp-validation-for="Declaration" class="text-danger"></span>
             </div>
 
             <div class="form-group mt-3">
