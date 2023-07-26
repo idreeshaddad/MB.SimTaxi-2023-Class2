@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using MB.SimTaxi.Web.Data;
 using MB.SimTaxi.Web.Data.Entities;
-using Microsoft.AspNetCore.Authorization;
 using MB.SimTaxi.Web.Models.Countries;
-using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MB.SimTaxi.Web.Controllers
 {
@@ -68,15 +68,18 @@ namespace MB.SimTaxi.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Country country)
+        public async Task<IActionResult> Create(CountryViewModel countryVM)
         {
             if (ModelState.IsValid)
             {
+                var country = _mapper.Map<CountryViewModel, Country>(countryVM);
+
                 _context.Add(country);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(country);
+
+            return View(countryVM);
         }
 
         [HttpGet]
@@ -96,14 +99,16 @@ namespace MB.SimTaxi.Web.Controllers
                 return NotFound();
             }
 
-            return View(country);
+            var countryVM = _mapper.Map<Country, CountryViewModel>(country);
+
+            return View(countryVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Country country)
+        public async Task<IActionResult> Edit(int id, CountryViewModel countryVM)
         {
-            if (id != country.Id)
+            if (id != countryVM.Id)
             {
                 return BadRequest();
             }
@@ -112,12 +117,14 @@ namespace MB.SimTaxi.Web.Controllers
             {
                 try
                 {
+                    var country = _mapper.Map<CountryViewModel, Country>(countryVM);
+
                     _context.Update(country);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CountryExists(country.Id))
+                    if (!CountryExists(countryVM.Id))
                     {
                         return NotFound();
                     }
@@ -129,7 +136,7 @@ namespace MB.SimTaxi.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(country);
+            return View(countryVM);
         }
 
         [HttpGet]
@@ -149,7 +156,9 @@ namespace MB.SimTaxi.Web.Controllers
                 return NotFound();
             }
 
-            return View(country);
+            var countryVM = _mapper.Map<Country, CountryViewModel>(country);
+
+            return View(countryVM);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -175,7 +184,7 @@ namespace MB.SimTaxi.Web.Controllers
         private bool CountryExists(int id)
         {
             return _context.Countries.Any(e => e.Id == id);
-        } 
+        }
 
         #endregion
     }
