@@ -9,7 +9,7 @@ namespace MB.SimTaxi.Web.Controllers
 {
     public class FuelTypesController : Controller
     {
-        #region Data and Constructors
+        #region Data and Const
 
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -23,13 +23,17 @@ namespace MB.SimTaxi.Web.Controllers
         #endregion
 
         #region Actions
-
         public async Task<IActionResult> Index()
         {
-            var fuelTypes = await _context.FuelTypes.ToListAsync();
+            // 1- Get the list of fuel types
+            var fuelTypes = await _context
+                                        .FuelTypes
+                                        .ToListAsync();
 
+            // 2- Transform into a List<ViewModel>
             var ftVMs = _mapper.Map<List<FuelType>, List<FuelTypeViewModel>>(fuelTypes);
 
+            // 3- Return to the view
             return View(ftVMs);
         }
 
@@ -61,11 +65,11 @@ namespace MB.SimTaxi.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(FuelTypeViewModel fuelTypeVM)
+        public async Task<IActionResult> Create([Bind("Id,Name")] FuelTypeViewModel fuelTypeVM)
         {
             if (ModelState.IsValid)
             {
-                var fuelType = _mapper.Map<FuelTypeViewModel, FuelType>(fuelTypeVM);
+                var fuelType = _mapper.Map<FuelTypeViewModel, FuelType>(fuelTypeVM); 
 
                 _context.Add(fuelType);
                 await _context.SaveChangesAsync();
@@ -98,7 +102,7 @@ namespace MB.SimTaxi.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, FuelTypeViewModel fuelTypeVM)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] FuelTypeViewModel fuelTypeVM)
         {
             if (id != fuelTypeVM.Id)
             {
@@ -131,7 +135,6 @@ namespace MB.SimTaxi.Web.Controllers
             return View(fuelTypeVM);
         }
 
-        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -149,7 +152,7 @@ namespace MB.SimTaxi.Web.Controllers
             }
 
             var ftVM = _mapper.Map<FuelType, FuelTypeViewModel>(fuelType);
-            
+
             return View(ftVM);
         }
 
@@ -165,7 +168,6 @@ namespace MB.SimTaxi.Web.Controllers
             }
 
             await _context.SaveChangesAsync();
-
             return RedirectToAction(nameof(Index));
         }
 
