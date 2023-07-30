@@ -133,27 +133,6 @@ namespace MB.SimTaxi.Web.Controllers
             return View(fuelTypeVM);
         }
 
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var fuelType = await _context
-                                    .FuelTypes
-                                    .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (fuelType == null)
-            {
-                return NotFound();
-            }
-
-            var ftVM = _mapper.Map<FuelType, FuelTypeViewModel>(fuelType);
-
-            return View(ftVM);
-        }
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
