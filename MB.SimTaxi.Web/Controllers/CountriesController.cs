@@ -70,6 +70,9 @@ namespace MB.SimTaxi.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CountryViewModel countryVM)
         {
+            // TODO check if country name already exists in the database
+            //ModelState.AddModelError("EXISTS", "Country Name already exists");
+            
             if (ModelState.IsValid)
             {
                 var country = _mapper.Map<CountryViewModel, Country>(countryVM);
@@ -78,7 +81,7 @@ namespace MB.SimTaxi.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
+            
             return View(countryVM);
         }
 

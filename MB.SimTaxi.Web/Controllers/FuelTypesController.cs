@@ -23,17 +23,15 @@ namespace MB.SimTaxi.Web.Controllers
         #endregion
 
         #region Actions
+
         public async Task<IActionResult> Index()
         {
-            // 1- Get the list of fuel types
             var fuelTypes = await _context
                                         .FuelTypes
                                         .ToListAsync();
 
-            // 2- Transform into a List<ViewModel>
             var ftVMs = _mapper.Map<List<FuelType>, List<FuelTypeViewModel>>(fuelTypes);
 
-            // 3- Return to the view
             return View(ftVMs);
         }
 

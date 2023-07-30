@@ -5,27 +5,28 @@
     ViewData["Title"] = "Countries";
 }
 
-<h1>Countries</h1>
+<div class="container">
+    <h1>Countries</h1>
 
-<hr />
+    <hr />
     <a class="btn btn-primary" asp-action="Create">Create New Country</a>
-<hr />
+    <hr />
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Code)
-            </th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var country in Model)
-        {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Code)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var country in Model)
+            {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => country.Name)
@@ -45,6 +46,7 @@
                     </a>
                 </td>
             </tr>
-        }
-    </tbody>
-</table>
+            }
+        </tbody>
+    </table>
+</div>
