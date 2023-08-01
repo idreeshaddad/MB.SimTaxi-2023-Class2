@@ -27,11 +27,14 @@ namespace MB.SimTaxi.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Drivers.Include(d => d.Country);
+            var drivers = await _context
+                                    .Drivers
+                                    .Include(driver => driver.Country)
+                                    .ToListAsync();
 
-            List<Driver> driver = await applicationDbContext.ToListAsync();
+            var driverVMs = _mapper.Map<List<Driver>, List<DriverListViewModel>>(drivers);
 
-            return View(driver);
+            return View(driverVMs);
         }
 
         public async Task<IActionResult> Details(int? id)
