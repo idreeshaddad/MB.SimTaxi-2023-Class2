@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using MB.SimTaxi.Web.Data;
 using MB.SimTaxi.Web.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using MB.SimTaxi.Web.Models.Drivers;
+using MB.SimTaxi.Web.Models.Cars;
 
 namespace MB.SimTaxi.Web.Controllers
 {
@@ -13,10 +16,12 @@ namespace MB.SimTaxi.Web.Controllers
         #region Data and Constructors 
 
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CarsController(ApplicationDbContext context)
+        public CarsController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         #endregion
@@ -25,9 +30,15 @@ namespace MB.SimTaxi.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Car> cars = _context.Cars.ToList();
+            List<Car> cars = _context
+                                .Cars
+                                .Include(car => car.FuelType)
+                                .Include(car => car.Driver)
+                                .ToList();
 
-            return View(cars);
+            var carsVM = _mapper.Map<List<Car>, List<CarListViewModel>>(cars);
+
+            return View(carsVM);
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -50,22 +61,28 @@ namespace MB.SimTaxi.Web.Controllers
 
         public IActionResult Create()
         {
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Id");
+            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Name");
+            ViewData["FuelTypes"] = new SelectList(_context.FuelTypes, "Id", "Name");
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Brand,Model,PlateNumber,Color,Year,CarType,DriverId")] Car car)
+        public async Task<IActionResult> Create(CreateUpdateCarViewModel carVM)
         {
             if (ModelState.IsValid)
             {
+                var car = _mapper.Map<Car>(carVM);
+
                 _context.Add(car);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Id", car.DriverId);
-            return View(car);
+
+            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Name", carVM.DriverId);
+
+            return View(carVM);
         }
 
         public async Task<IActionResult> Edit(int? id)

@@ -1,15 +1,19 @@
-﻿@model IEnumerable<MB.SimTaxi.Web.Data.Entities.Car>
+﻿@using MB.SimTaxi.Web.Models.Cars;
+@model IEnumerable<CarListViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Cars";
 }
 
 <div class="container">
-    <h1>Index</h1>
+    <h1>Cars</h1>
 
+    <hr />
     <p>
-        <a asp-action="Create">Create New</a>
+        <a class="btn btn-primary" asp-action="Create">Create New</a>
     </p>
+    <hr />
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -32,41 +36,86 @@
                     @Html.DisplayNameFor(model => model.CarType)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Driver)
+                    @Html.DisplayNameFor(model => model.FuelTypeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DriverName)
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Brand)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Model)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PlateNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Color)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Year)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Driver.Id)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            @foreach (var car in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => car.Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => car.Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => car.PlateNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => car.Color)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => car.Year)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => car.CarType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => car.FuelTypeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => car.DriverName)
+                    </td>
+
+                    <td>
+                        <a class="text-decoration-none text-primary" asp-action="Edit" asp-route-id="@car.Id" data-bs-toggle="tooltip" data-bs-title="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                        <a class="text-decoration-none ms-2 text-info" asp-action="Details" asp-route-id="@car.Id" data-bs-toggle="tooltip" data-bs-title="Details">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </a>
+
+                        <!-- Button trigger delete modal -->
+                        <span class="pointer ms-2 text-danger" data-bs-toggle="tooltip" data-bs-title="Delete">
+
+                            <i class="fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal_@car.Id"></i>
+
+                        </span>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deleteModal_@car.Id" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Car</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>Are you sure you want to delete <span class="text-danger">@car.Brand - @car.Model</span>?</h3>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <form asp-action="Delete" class="mt-3">
+                                            <input type="hidden" name="id" value="@car.Id" />
+                                            <a class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
+                                            <input type="submit" value="Delete" class="btn btn-danger ms-1" />
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+
+                </tr>
             }
         </tbody>
     </table>
