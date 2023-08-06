@@ -142,28 +142,6 @@ namespace MB.SimTaxi.Web.Controllers
             return View(countryVM);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Countries == null)
-            {
-                return NotFound();
-            }
-
-            var country = await _context
-                                    .Countries
-                                    .SingleOrDefaultAsync(m => m.Id == id);
-
-            if (country == null)
-            {
-                return NotFound();
-            }
-
-            var countryVM = _mapper.Map<Country, CountryViewModel>(country);
-
-            return View(countryVM);
-        }
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

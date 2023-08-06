@@ -41,9 +41,39 @@
                     <a class="text-decoration-none ms-2 text-info" asp-action="Details" asp-route-id="@country.Id" data-bs-toggle="tooltip" data-bs-title="Details">
                         <i class="fa-solid fa-circle-info"></i>
                     </a>
-                    <a class="text-decoration-none ms-2 text-danger" asp-action="Delete" asp-route-id="@country.Id" data-bs-toggle="tooltip" data-bs-title="Delete">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
+                    
+                        <!-- Button trigger delete modal -->
+                        <span class="pointer ms-2 text-danger" data-bs-toggle="tooltip" data-bs-title="Delete">
+
+                            <i class="fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal_@country.Id"></i>
+
+                        </span>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deleteModal_@country.Id" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Country</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>Are you sure you want to delete <span class="text-danger">@country.Name</span>?</h3>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <form asp-action="Delete" class="mt-3">
+                                            <input type="hidden" name="id" value="@country.Id" />
+                                            <a class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
+                                            <input type="submit" value="Delete" class="btn btn-danger ms-1" />
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                 </td>
             </tr>
             }
