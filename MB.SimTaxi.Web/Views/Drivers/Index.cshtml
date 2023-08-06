@@ -9,7 +9,7 @@
     <h1>Drivers</h1>
 
     <p>
-        <a asp-action="Create">Create New Driver</a>
+        <a class="btn btn-primary" asp-action="Create">Create New Driver</a>
     </p>
     <table class="table table-striped">
         <thead>
@@ -30,26 +30,63 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CountryName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            @foreach (var driver in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => driver.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => driver.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => driver.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => driver.CountryName)
+                    </td>
+                    <td>
+                        <a class="text-decoration-none text-primary" asp-action="Edit" asp-route-id="@driver.Id" data-bs-toggle="tooltip" data-bs-title="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                        <a class="text-decoration-none ms-2 text-info" asp-action="Details" asp-route-id="@driver.Id" data-bs-toggle="tooltip" data-bs-title="Details">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </a>
+
+                        <!-- Button trigger delete modal -->
+                        <span class="pointer ms-2 text-danger" data-bs-toggle="tooltip" data-bs-title="Delete">
+
+                            <i class="fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal_@driver.Id"></i>
+
+                        </span>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deleteModal_@driver.Id" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Driver</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>Are you sure you want to delete <span class="text-danger">@driver.Name</span>?</h3>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <form asp-action="Delete" class="mt-3">
+                                            <input type="hidden" name="id" value="@driver.Id" />
+                                            <a class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
+                                            <input type="submit" value="Delete" class="btn btn-danger ms-1" />
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

@@ -86,34 +86,42 @@ namespace MB.SimTaxi.Web.Controllers
                 return NotFound();
             }
 
-            var driver = await _context.Drivers.FindAsync(id);
+            var driver = await _context
+                                .Drivers
+                                .FindAsync(id);
+
             if (driver == null)
             {
                 return NotFound();
             }
-            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Id", driver.CountryId);
-            return View(driver);
+            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Name", driver.CountryId);
+
+            var driverVM = _mapper.Map<Driver, CreateUpdateDriverViewModel>(driver);
+
+            return View(driverVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DateOfBirth,Gender,SSN,CountryId")] Driver driver)
+        public async Task<IActionResult> Edit(int id, CreateUpdateDriverViewModel driverVM)
         {
-            if (id != driver.Id)
+            if (id != driverVM.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var driver = _mapper.Map<CreateUpdateDriverViewModel, Driver>(driverVM);
+
                     _context.Update(driver);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DriverExists(driver.Id))
+                    if (!DriverExists(driverVM.Id))
                     {
                         return NotFound();
                     }
@@ -124,37 +132,18 @@ namespace MB.SimTaxi.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Id", driver.CountryId);
-            return View(driver);
-        }
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Drivers == null)
-            {
-                return NotFound();
-            }
-
-            var driver = await _context.Drivers
-                .Include(d => d.Country)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (driver == null)
-            {
-                return NotFound();
-            }
-
-            return View(driver);
+            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Id", driverVM.CountryId);
+            return View(driverVM);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Drivers == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Drivers'  is null.");
-            }
-            var driver = await _context.Drivers.FindAsync(id);
+            var driver = await _context
+                                    .Drivers
+                                    .FindAsync(id);
+
             if (driver != null)
             {
                 _context.Drivers.Remove(driver);
