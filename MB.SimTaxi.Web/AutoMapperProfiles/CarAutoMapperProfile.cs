@@ -9,7 +9,8 @@ namespace MB.SimTaxi.Web.AutoMapperProfiles
         public CarAutoMapperProfile()
         {
             CreateMap<Car, CarListViewModel>();
-            CreateMap<CreateUpdateCarViewModel, Car>();
+            CreateMap<CreateUpdateCarViewModel, Car>().ReverseMap();
+            CreateMap<Car, CarDetailsViewModel>();
         }
     }
 }

@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MB.SimTaxi.Web.Data;
 using MB.SimTaxi.Web.Data.Entities;
-using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-using MB.SimTaxi.Web.Models.Drivers;
 using MB.SimTaxi.Web.Models.Cars;
 
 namespace MB.SimTaxi.Web.Controllers
@@ -43,20 +41,25 @@ namespace MB.SimTaxi.Web.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Cars == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var car = await _context.Cars
-                .Include(c => c.Driver)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var car = await _context
+                                .Cars
+                                .Include(car => car.Driver)
+                                .Include(car => car.FuelType)
+                                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (car == null)
             {
                 return NotFound();
             }
 
-            return View(car);
+            var carVM = _mapper.Map<Car, CarDetailsViewModel>(car);
+
+            return View(carVM);
         }
 
         public IActionResult Create()
@@ -81,31 +84,41 @@ namespace MB.SimTaxi.Web.Controllers
             }
 
             ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Name", carVM.DriverId);
+            ViewData["FuelTypes"] = new SelectList(_context.FuelTypes, "Id", "Name", carVM.FuelTypeId);
 
             return View(carVM);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Cars == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var car = await _context.Cars.FindAsync(id);
+            var car = await _context
+                                .Cars
+                                .FindAsync(id);
+
             if (car == null)
             {
                 return NotFound();
             }
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Id", car.DriverId);
-            return View(car);
+
+            ViewData["Drivers"] = new SelectList(_context.Drivers, "Id", "Name", car.DriverId);
+            ViewData["FuelTypes"] = new SelectList(_context.FuelTypes, "Id", "Name", car.FuelTypeId);
+
+            var carVM = _mapper.Map<Car, CreateUpdateCarViewModel>(car);
+
+            return View(carVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Brand,Model,PlateNumber,Color,Year,CarType,DriverId")] Car car)
+        public async Task<IActionResult> Edit(int id, CreateUpdateCarViewModel carVM)
         {
-            if (id != car.Id)
+            if (id != carVM.Id)
             {
                 return NotFound();
             }
@@ -114,12 +127,14 @@ namespace MB.SimTaxi.Web.Controllers
             {
                 try
                 {
+                    var car = _mapper.Map<CreateUpdateCarViewModel, Car>(carVM);
+
                     _context.Update(car);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CarExists(car.Id))
+                    if (!CarExists(carVM.Id))
                     {
                         return NotFound();
                     }
@@ -130,8 +145,10 @@ namespace MB.SimTaxi.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Id", car.DriverId);
-            return View(car);
+
+            ViewData["Drivers"] = new SelectList(_context.Drivers, "Id", "Name", carVM.DriverId);
+
+            return View(carVM);
         }
 
         public async Task<IActionResult> Delete(int? id)
