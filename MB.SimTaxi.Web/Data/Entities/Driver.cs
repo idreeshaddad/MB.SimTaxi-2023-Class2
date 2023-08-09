@@ -9,8 +9,9 @@ namespace MB.SimTaxi.Web.Data.Entities
         public DateTime DateOfBirth { get; set; }
         public Gender? Gender { get; set; }
         public string SSN { get; set; }
-
+            
         public int? CountryId { get; set; }
         public Country Country { get; set; }
+        public List<Car> Cars { get; set; }
     }
 }

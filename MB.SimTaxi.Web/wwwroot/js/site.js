@@ -7,3 +7,8 @@ const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 
+$(document).ready(function () {
+    $('.data-table').DataTable();
+
+    $('.select2').select2();
+});

@@ -64,7 +64,7 @@ namespace MB.SimTaxi.Web.Data.Migrations
 
                     b.HasIndex("FuelTypeId");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("MB.SimTaxi.Web.Data.Entities.Country", b =>
@@ -85,7 +85,7 @@ namespace MB.SimTaxi.Web.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("MB.SimTaxi.Web.Data.Entities.Driver", b =>
@@ -117,7 +117,7 @@ namespace MB.SimTaxi.Web.Data.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Drivers");
+                    b.ToTable("Drivers", (string)null);
                 });
 
             modelBuilder.Entity("MB.SimTaxi.Web.Data.Entities.FuelType", b =>
@@ -134,7 +134,7 @@ namespace MB.SimTaxi.Web.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FuelTypes");
+                    b.ToTable("FuelTypes", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -39,20 +39,25 @@ namespace MB.SimTaxi.Web.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Drivers == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var driver = await _context.Drivers
-                .Include(d => d.Country)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var driver = await _context
+                                    .Drivers
+                                    .Include(driver => driver.Country)
+                                    .Include(driver => driver.Cars)
+                                    .FirstOrDefaultAsync(m => m.Id == id);
+
             if (driver == null)
             {
                 return NotFound();
             }
 
-            return View(driver);
+            var driverVM = _mapper.Map<Driver, DriverDetailsViewModel>(driver);
+
+            return View(driverVM);
         }
 
         public IActionResult Create()
@@ -151,6 +156,25 @@ namespace MB.SimTaxi.Web.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveCar(int driverId, int carId)
+        {
+            var driver = await _context
+                                .Drivers
+                                .FindAsync(driverId);
+            
+            var car = await _context
+                                .Cars
+                                .FindAsync(carId);
+
+            driver.Cars.Remove(car);
+
+            _context.Update(driver);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = driverId });
         }
 
         #endregion
