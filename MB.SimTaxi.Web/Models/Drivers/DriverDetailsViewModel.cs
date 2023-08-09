@@ -7,7 +7,9 @@ namespace MB.SimTaxi.Web.Models.Drivers
     public class DriverDetailsViewModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; }
 
         [Display(Name = "Date of Birth")]
         public DateTime DateOfBirth { get; set; }

@@ -63,6 +63,9 @@ namespace MB.SimTaxi.Web.Controllers
         public IActionResult Create()
         {
             ViewData["countries"] = new SelectList(_context.Countries, "Id", "Name");
+
+            ViewData["cars"] = new SelectList(_context.Cars, "Id", "Name");
+
             return View();
         }
 

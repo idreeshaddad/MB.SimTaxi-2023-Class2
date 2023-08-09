@@ -21,7 +21,7 @@
                     Driver #
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.FullName)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Gender)
@@ -40,7 +40,7 @@
                         @Html.DisplayFor(modelItem => driver.Id)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => driver.Name)
+                        @Html.DisplayFor(modelItem => driver.FullName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => driver.Gender)
@@ -73,7 +73,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h3>Are you sure you want to delete <span class="text-danger">@driver.Name</span>?</h3>
+                                        <h3>Are you sure you want to delete <span class="text-danger">@driver.FullName</span>?</h3>
                                     </div>
 
                                     <div class="modal-footer">
