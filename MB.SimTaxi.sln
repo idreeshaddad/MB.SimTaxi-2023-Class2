@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MB.SimTaxi.Web", "MB.SimTaxi.Web\MB.SimTaxi.Web.csproj", "{956B2709-D940-4C43-A550-25395041FF6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{2F6D98E5-88AE-4189-8960-684F8C0EB976}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{2F6D98E5-88AE-4189-8960-684F8C0EB976}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

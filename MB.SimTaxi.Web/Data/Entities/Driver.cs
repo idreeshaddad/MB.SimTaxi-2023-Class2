@@ -4,6 +4,11 @@ namespace MB.SimTaxi.Web.Data.Entities
 {
     public class Driver
     {
+        public Driver()
+        {
+            Cars = new List<Car>();
+        }
+
         public int Id { get; set; }
 
         public string FirstName { get; set; } // Sameer

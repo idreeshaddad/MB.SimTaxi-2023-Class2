@@ -17,6 +17,6 @@ namespace MB.SimTaxi.Web.Models.Cars
         public string FuelTypeName { get; set; }
 
         [Display(Name = "Driver")]
-        public string DriverName { get; set; }
+        public string DriverFullName { get; set; }
     }
 }

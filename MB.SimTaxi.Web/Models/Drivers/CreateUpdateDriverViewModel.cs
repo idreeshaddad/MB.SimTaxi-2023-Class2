@@ -30,5 +30,8 @@ namespace MB.SimTaxi.Web.Models.Drivers
 
         [Display(Name = "Country Name")]
         public int CountryId { get; set; }
+
+        [Display(Name = "Car Name")]
+        public int CarId { get; set; }
     }
 }

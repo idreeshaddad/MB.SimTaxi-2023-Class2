@@ -64,7 +64,7 @@ namespace MB.SimTaxi.Web.Controllers
         {
             ViewData["countries"] = new SelectList(_context.Countries, "Id", "Name");
 
-            ViewData["cars"] = new SelectList(_context.Cars, "Id", "Name");
+            ViewData["cars"] = new SelectList(_context.Cars, "Id", "Title");
 
             return View();
         }
@@ -77,12 +77,14 @@ namespace MB.SimTaxi.Web.Controllers
             {
                 var driver = _mapper.Map<CreateUpdateDriverViewModel, Driver>(driverVM);
 
+                await AddCarToDriver(driverVM, driver);
+
                 _context.Add(driver);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Id", driverVM.CountryId);
+            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Name", driverVM.CountryId);
 
             return View(driverVM);
         }
@@ -187,7 +189,13 @@ namespace MB.SimTaxi.Web.Controllers
         private bool DriverExists(int id)
         {
             return (_context.Drivers?.Any(e => e.Id == id)).GetValueOrDefault();
-        } 
+        }
+
+        private async Task AddCarToDriver(CreateUpdateDriverViewModel driverVM, Driver driver)
+        {
+            var car = await _context.Cars.FindAsync(driverVM.CarId);
+            driver.Cars.Add(car);
+        }
 
         #endregion
     }

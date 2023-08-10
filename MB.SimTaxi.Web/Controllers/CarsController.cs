@@ -64,7 +64,7 @@ namespace MB.SimTaxi.Web.Controllers
 
         public IActionResult Create()
         {
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Name");
+            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "FullName");
             ViewData["FuelTypes"] = new SelectList(_context.FuelTypes, "Id", "Name");
 
             return View();
@@ -83,7 +83,7 @@ namespace MB.SimTaxi.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Name", carVM.DriverId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "FullName", carVM.DriverId);
             ViewData["FuelTypes"] = new SelectList(_context.FuelTypes, "Id", "Name", carVM.FuelTypeId);
 
             return View(carVM);
