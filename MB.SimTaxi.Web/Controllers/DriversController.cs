@@ -98,15 +98,21 @@ namespace MB.SimTaxi.Web.Controllers
 
             var driver = await _context
                                 .Drivers
-                                .FindAsync(id);
+                                .Include(driver => driver.Cars)
+                                .SingleAsync(driver => driver.Id == id);
 
             if (driver == null)
             {
                 return NotFound();
             }
-            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Name", driver.CountryId);
 
             var driverVM = _mapper.Map<Driver, CreateUpdateDriverViewModel>(driver);
+            
+            
+            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Name", driver.CountryId);
+
+            driverVM.CarId = driver.Cars[0].Id;
+            ViewData["cars"] = new SelectList(_context.Cars, "Id", "Title", driverVM.CarId);
 
             return View(driverVM);
         }

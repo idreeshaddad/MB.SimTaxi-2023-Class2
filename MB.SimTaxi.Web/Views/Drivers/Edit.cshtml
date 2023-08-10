@@ -8,24 +8,25 @@
 
 <div class="container">
     <h1>
-        Edit 
+        Edit
         <span class="text text-primary">@Model.FullName</span>
     </h1>
     <hr />
 
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Id" />
+    <form asp-action="Edit">
 
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="FirstName" class="control-label"></label>
                     <input asp-for="FirstName" class="form-control" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="LastName" class="control-label"></label>
                     <input asp-for="LastName" class="form-control" />
                     <span asp-validation-for="LastName" class="text-danger"></span>
@@ -38,6 +39,13 @@
                 </div>
 
                 <div class="form-group mt-2">
+                    <label asp-for="CarId" class="control-label"></label>
+                    <select asp-for="CarId" class="form-control" asp-items="ViewBag.cars"></select>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
                     <label asp-for="Gender" class="control-label"></label>
                     <select class="form-control" asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()"></select>
                     <span asp-validation-for="Gender" class="text-danger"></span>
@@ -51,20 +59,21 @@
 
                 <div class="form-group mt-2">
                     <label asp-for="CountryId" class="control-label"></label>
-                    <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId"></select>
-                    <span asp-validation-for="CountryId" class="text-danger"></span>
+                    <select asp-for="CountryId" class="form-control" asp-items="ViewBag.countries"></select>
                 </div>
-
-                <div class="form-group mt-3">
-                    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
+
+        <div class="form-group mt-4">
+            <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+            <input type="submit" value="Create" class="btn btn-primary ms-2" />
+        </div>
+    </form>
 
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
