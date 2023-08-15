@@ -38,7 +38,7 @@
 
                 <div class="form-group mt-2">
                     <label asp-for="FuelTypeId" class="control-label"></label>
-                    <select asp-for="FuelTypeId" asp-items="@ViewBag.FuelTypes" class="form-control"></select>
+                    <select asp-for="FuelTypeId" asp-items="Model.FuelTypesSelectList" class="form-control"></select>
                     <span asp-validation-for="FuelTypeId" class="text-danger"></span>
                 </div>
 
@@ -64,7 +64,7 @@
 
                 <div class="form-group mt-2">
                     <label asp-for="DriverId" class="control-label"></label>
-                    <select asp-for="DriverId" class="form-control" asp-items="ViewBag.DriverId"></select>
+                    <select asp-for="DriverId" class="form-control" asp-items="Model.DriversSelectList"></select>
                 </div>
 
             </div>

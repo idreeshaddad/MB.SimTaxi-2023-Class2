@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using MB.SimTaxi.Web.Data;
 using MB.SimTaxi.Web.Data.Entities;
-using AutoMapper;
 using MB.SimTaxi.Web.Models.Cars;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace MB.SimTaxi.Web.Controllers
 {
@@ -64,10 +64,11 @@ namespace MB.SimTaxi.Web.Controllers
 
         public IActionResult Create()
         {
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "FullName");
-            ViewData["FuelTypes"] = new SelectList(_context.FuelTypes, "Id", "Name");
+            var carVM = new CreateUpdateCarViewModel();
+            carVM.DriversSelectList = new SelectList(_context.Drivers, "Id", "FullName");
+            carVM.FuelTypesSelectList = new SelectList(_context.FuelTypes, "Id", "Name");
 
-            return View();
+            return View(carVM);
         }
 
         [HttpPost]
@@ -83,8 +84,8 @@ namespace MB.SimTaxi.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "FullName", carVM.DriverId);
-            ViewData["FuelTypes"] = new SelectList(_context.FuelTypes, "Id", "Name", carVM.FuelTypeId);
+            carVM.DriversSelectList = new SelectList(_context.Drivers, "Id", "FullName", carVM.DriverId);
+            carVM.FuelTypesSelectList = new SelectList(_context.FuelTypes, "Id", "Name", carVM.FuelTypeId);
 
             return View(carVM);
         }
@@ -106,10 +107,9 @@ namespace MB.SimTaxi.Web.Controllers
                 return NotFound();
             }
 
-            ViewData["Drivers"] = new SelectList(_context.Drivers, "Id", "Name", car.DriverId);
-            ViewData["FuelTypes"] = new SelectList(_context.FuelTypes, "Id", "Name", car.FuelTypeId);
-
             var carVM = _mapper.Map<Car, CreateUpdateCarViewModel>(car);
+            carVM.DriversSelectList = new SelectList(_context.Drivers, "Id", "FullName", car.DriverId);
+            carVM.FuelTypesSelectList = new SelectList(_context.FuelTypes, "Id", "Name", car.FuelTypeId);
 
             return View(carVM);
         }
@@ -146,7 +146,8 @@ namespace MB.SimTaxi.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["Drivers"] = new SelectList(_context.Drivers, "Id", "Name", carVM.DriverId);
+            carVM.DriversSelectList = new SelectList(_context.Drivers, "Id", "FullName", carVM.DriverId);
+            carVM.FuelTypesSelectList = new SelectList(_context.FuelTypes, "Id", "Name", carVM.FuelTypeId);
 
             return View(carVM);
         }
@@ -182,7 +183,7 @@ namespace MB.SimTaxi.Web.Controllers
             {
                 _context.Cars.Remove(car);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -194,7 +195,7 @@ namespace MB.SimTaxi.Web.Controllers
         private bool CarExists(int id)
         {
             return (_context.Cars?.Any(e => e.Id == id)).GetValueOrDefault();
-        } 
+        }
         #endregion
     }
 }
