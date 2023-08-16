@@ -1,5 +1,4 @@
 ﻿using MB.SimTaxi.Web.Enums;
-using MB.SimTaxi.Web.Models.FuelTypes;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
@@ -23,13 +22,7 @@ namespace MB.SimTaxi.Web.Models.Cars
         [Display(Name = "Fuel Type")]
         public int FuelTypeId { get; set; }
 
-        [Display(Name = "Driver")]
-        public int DriverId { get; set; }
 
-
-
-        [ValidateNever]
-        public SelectList DriversSelectList { get; set; }
         [ValidateNever]
         public SelectList FuelTypesSelectList { get; set; }
     }

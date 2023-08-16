@@ -46,7 +46,7 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Year)
         </dd>
-        
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CarType)
         </dt>
@@ -65,7 +65,14 @@
             @Html.DisplayNameFor(model => model.DriverFullName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DriverFullName)
+            @if (String.IsNullOrEmpty(Model.DriverFullName))
+            {
+                <span class="text-danger">Can Not Assigned to any Driver</span>
+            }
+            else
+            {
+                <span class="text-primary">@Model.DriverFullName</span>
+            }
         </dd>
     </dl>
 

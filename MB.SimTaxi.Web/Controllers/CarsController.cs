@@ -65,7 +65,6 @@ namespace MB.SimTaxi.Web.Controllers
         public IActionResult Create()
         {
             var carVM = new CreateUpdateCarViewModel();
-            carVM.DriversSelectList = new SelectList(_context.Drivers, "Id", "FullName");
             carVM.FuelTypesSelectList = new SelectList(_context.FuelTypes, "Id", "Name");
 
             return View(carVM);
@@ -84,7 +83,6 @@ namespace MB.SimTaxi.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            carVM.DriversSelectList = new SelectList(_context.Drivers, "Id", "FullName", carVM.DriverId);
             carVM.FuelTypesSelectList = new SelectList(_context.FuelTypes, "Id", "Name", carVM.FuelTypeId);
 
             return View(carVM);
@@ -108,7 +106,6 @@ namespace MB.SimTaxi.Web.Controllers
             }
 
             var carVM = _mapper.Map<Car, CreateUpdateCarViewModel>(car);
-            carVM.DriversSelectList = new SelectList(_context.Drivers, "Id", "FullName", car.DriverId);
             carVM.FuelTypesSelectList = new SelectList(_context.FuelTypes, "Id", "Name", car.FuelTypeId);
 
             return View(carVM);
@@ -146,7 +143,6 @@ namespace MB.SimTaxi.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            carVM.DriversSelectList = new SelectList(_context.Drivers, "Id", "FullName", carVM.DriverId);
             carVM.FuelTypesSelectList = new SelectList(_context.FuelTypes, "Id", "Name", carVM.FuelTypeId);
 
             return View(carVM);
