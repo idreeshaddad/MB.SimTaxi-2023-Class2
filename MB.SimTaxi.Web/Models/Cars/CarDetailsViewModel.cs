@@ -22,5 +22,8 @@ namespace MB.SimTaxi.Web.Models.Cars
 
         [Display(Name = "Driver")]
         public string DriverFullName { get; set; }
+
+
+        public int DriverId { get; set; }
     }
 }

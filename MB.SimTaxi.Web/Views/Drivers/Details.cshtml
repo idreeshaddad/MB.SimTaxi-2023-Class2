@@ -67,9 +67,9 @@
                         <th>
 
                             <!-- Button trigger delete modal -->
-                            <span class="pointer ms-2 text-danger" data-bs-toggle="tooltip" data-bs-title="Delete">
+                            <span class="pointer ms-2 text-warning" data-bs-toggle="tooltip" data-bs-title="Unassign Car">
 
-                                <i class="fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal_@car.Id"></i>
+                                <i class="fa-solid fa-link-slash" data-bs-toggle="modal" data-bs-target="#deleteModal_@car.Id"></i>
 
                             </span>
 
@@ -79,19 +79,19 @@
                                     <div class="modal-content">
 
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="deleteModalLabel">Remove Driver Car</h1>
+                                            <h1 class="modal-title fs-5" id="deleteModalLabel">Unassign Driver Car</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <h3>Are you sure you want to remove <span class="text-danger">@car.Brand - @car.Model - @car.PlateNumber</span>?</h3>
+                                            <h3>Are you sure you want to unassign Driver Car: <span class="text-warning">@car.Brand - @car.Model - @car.PlateNumber</span>?</h3>
                                         </div>
 
                                         <div class="modal-footer">
-                                            <form asp-action="RemoveCar" class="mt-3">
+                                            <form asp-action="UnassignCar" class="mt-3">
                                                 <input type="hidden" name="driverId" value="@Model.Id" />
                                                 <input type="hidden" name="carId" value="@car.Id" />
                                                 <a class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
-                                                <input type="submit" value="Delete" class="btn btn-danger ms-1" />
+                                                <input type="submit" value="Unassign" class="btn btn-warning ms-1" />
                                             </form>
 
                                         </div>

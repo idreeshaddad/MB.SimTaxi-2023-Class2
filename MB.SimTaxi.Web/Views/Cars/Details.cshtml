@@ -71,7 +71,9 @@
             }
             else
             {
-                <span class="text-primary">@Model.DriverFullName</span>
+                <a asp-controller="Drivers" asp-action="Details" asp-route-id="@Model.DriverId"> 
+                    <span class="text-primary">@Model.DriverFullName</span>
+                </a>
             }
         </dd>
     </dl>

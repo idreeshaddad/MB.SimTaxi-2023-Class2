@@ -170,7 +170,7 @@ namespace MB.SimTaxi.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveCar(int driverId, int carId)
+        public async Task<IActionResult> UnassignCar(int driverId, int carId)
         {
             var driver = await _context
                                 .Drivers
