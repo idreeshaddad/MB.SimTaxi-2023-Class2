@@ -1,5 +1,5 @@
 ﻿@using MB.SimTaxi.Web.Models.Drivers;
-@model IEnumerable<DriverListViewModel>
+@model DriverPageViewModel
 
 @{
     ViewData["Title"] = "Drivers";
@@ -21,19 +21,19 @@
                     Driver #
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FullName)
+                    Driver Name
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Gender)
+                    Gender
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CountryName)
+                    Country Name
                 </th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var driver in Model)
+            @foreach (var driver in Model.Drivers)
             {
                 <tr>
                     <td>
@@ -88,6 +88,47 @@
                             </div>
                         </div>
 
+
+                        <!-- Button trigger delete modal -->
+                        <span class="pointer ms-2 text-danger" data-bs-toggle="tooltip" data-bs-title="Assign Car">
+
+                            <i class="fa-solid fa-car-on" data-bs-toggle="modal" data-bs-target="#assignCarModal_@driver.Id"></i>
+
+                        </span>
+
+                        <!-- Assign Car Modal -->
+                        <div class="modal fade" id="assignCarModal_@driver.Id" tabindex="-1" aria-labelledby="AssignCarModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="deleteModalLabel">Assign Car to Driver</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+
+                                    <form asp-action="AssignCarToDriver" class="mt-3">
+                                        <div class="modal-body">
+
+                                            @* TODO add Multiselect Cars*@
+
+                                        </div>
+
+                                        <div class="modal-footer">
+
+                                            <input type="hidden" name="id" value="@driver.Id" />
+                                            <a class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
+                                            <input type="submit" value="Delete" class="btn btn-danger ms-1" />
+
+
+                                        </div>
+                                    </form>
+
+
+
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             }

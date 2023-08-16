@@ -34,7 +34,12 @@ namespace MB.SimTaxi.Web.Controllers
 
             var driverVMs = _mapper.Map<List<Driver>, List<DriverListViewModel>>(drivers);
 
-            return View(driverVMs);
+            var driverPageVM = new DriverPageViewModel();
+            driverPageVM.Drivers = driverVMs;
+
+            // TODO get list of unassigned cars FOMR THE DATABASE and put them into driverPageVM.CarsLookUp
+
+            return View(driverPageVM);
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -181,6 +186,25 @@ namespace MB.SimTaxi.Web.Controllers
                                 .FindAsync(carId);
 
             driver.Cars.Remove(car);
+
+            _context.Update(driver);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = driverId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignCarToDriver(int driverId, int carId)
+        {
+            var driver = await _context
+                                .Drivers
+                                .FindAsync(driverId);
+
+            var car = await _context
+                                .Cars
+                                .FindAsync(carId);
+
+            driver.Cars.Add(car);
 
             _context.Update(driver);
             await _context.SaveChangesAsync();
