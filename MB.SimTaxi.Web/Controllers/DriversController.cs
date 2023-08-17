@@ -38,9 +38,11 @@ namespace MB.SimTaxi.Web.Controllers
             driverPageVM.Drivers = driverVMs;
 
             // TODO get list of unassigned cars FOMR THE DATABASE and put them into driverPageVM.CarsLookUp
+            driverPageVM.CarSelectList = await GetCarsLookupAsync();
 
             return View(driverPageVM);
         }
+
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -65,11 +67,16 @@ namespace MB.SimTaxi.Web.Controllers
             return View(driverVM);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
             ViewData["countries"] = new SelectList(_context.Countries, "Id", "Name");
 
-            ViewData["cars"] = new SelectList(_context.Cars, "Id", "Title");
+            List<Car> cars = await _context
+                                .Cars
+                                .Where(car => car.DriverId == null)
+                                .ToListAsync();
+
+            ViewData["cars"] = new SelectList(cars, "Id", "Title");
 
             return View();
         }
@@ -209,7 +216,7 @@ namespace MB.SimTaxi.Web.Controllers
             _context.Update(driver);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Details), new { id = driverId });
+            return RedirectToAction(nameof(Index));
         }
 
         #endregion
@@ -225,6 +232,18 @@ namespace MB.SimTaxi.Web.Controllers
         {
             var car = await _context.Cars.FindAsync(driverVM.CarId);
             driver.Cars.Add(car);
+        }
+
+        private async Task<SelectList> GetCarsLookupAsync()
+        {
+            var carsLookup = await _context
+                                    .Cars
+                                    .Where(car => car.DriverId == null)
+                                    .ToListAsync();
+
+            var carSelectList = new SelectList(carsLookup, "Id", "Title");
+
+            return carSelectList;
         }
 
         #endregion

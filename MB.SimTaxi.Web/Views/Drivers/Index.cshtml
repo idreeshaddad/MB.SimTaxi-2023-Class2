@@ -110,17 +110,30 @@
                                     <form asp-action="AssignCarToDriver" class="mt-3">
                                         <div class="modal-body">
 
-                                            @* TODO add Multiselect Cars*@
+                                            <h3>Assign car to driver <span class="text-primary">@driver.FullName</span></h3>
+
+                                            <input type="hidden" name="driverId" value="@driver.Id" />
+
+                                            @if(Model.CarSelectList.Count() > 0){
+                                                <div class="form-group">
+                                                    <label for="carDropdown" class="control-label">Car</label>
+                                                    <select id="carDropdown" name="carId" class="form-control" asp-items="@Model.CarSelectList"></select>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <h6 class="text-secondary">No cars are available!</h6>
+                                            }
 
                                         </div>
 
                                         <div class="modal-footer">
 
-                                            <input type="hidden" name="id" value="@driver.Id" />
                                             <a class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
-                                            <input type="submit" value="Delete" class="btn btn-danger ms-1" />
-
-
+                                            @if (Model.CarSelectList.Count() > 0)
+                                            {
+                                                <input type="submit" value="Assign" class="btn btn-primary ms-1" />
+                                            }
                                         </div>
                                     </form>
 
