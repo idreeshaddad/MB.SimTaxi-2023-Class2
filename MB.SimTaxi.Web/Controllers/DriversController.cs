@@ -201,17 +201,18 @@ namespace MB.SimTaxi.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AssignCarToDriver(int driverId, int carId)
+        public async Task<IActionResult> AssignCarToDriver(int driverId, List<int> carIds)
         {
             var driver = await _context
                                 .Drivers
                                 .FindAsync(driverId);
 
-            var car = await _context
+            var cars = await _context
                                 .Cars
-                                .FindAsync(carId);
+                                .Where(car => carIds.Contains(car.Id)) // 9, 10
+                                .ToListAsync();
 
-            driver.Cars.Add(car);
+            driver.Cars.AddRange(cars);
 
             _context.Update(driver);
             await _context.SaveChangesAsync();
@@ -234,14 +235,14 @@ namespace MB.SimTaxi.Web.Controllers
             driver.Cars.Add(car);
         }
 
-        private async Task<SelectList> GetCarsLookupAsync()
+        private async Task<MultiSelectList> GetCarsLookupAsync()
         {
             var carsLookup = await _context
                                     .Cars
                                     .Where(car => car.DriverId == null)
                                     .ToListAsync();
 
-            var carSelectList = new SelectList(carsLookup, "Id", "Title");
+            var carSelectList = new MultiSelectList(carsLookup, "Id", "Title");
 
             return carSelectList;
         }

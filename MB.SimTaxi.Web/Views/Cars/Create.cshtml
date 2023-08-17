@@ -38,7 +38,7 @@
 
                 <div class="form-group mt-2">
                     <label asp-for="FuelTypeId" class="control-label"></label>
-                    <select asp-for="FuelTypeId" asp-items="Model.FuelTypesSelectList" class="form-control"></select>
+                    <select asp-for="FuelTypeId" asp-items="Model.FuelTypesSelectList" class="form-control select2"></select>
                     <span asp-validation-for="FuelTypeId" class="text-danger"></span>
                 </div>
 
@@ -58,7 +58,7 @@
 
                 <div class="form-group mt-2">
                     <label asp-for="CarType" class="control-label"></label>
-                    <select asp-for="CarType" asp-items="@Html.GetEnumSelectList<CarType>()" class="form-control"></select>
+                    <select asp-for="CarType" asp-items="@Html.GetEnumSelectList<CarType>()" class="form-control select2"></select>
                     <span asp-validation-for="CarType" class="text-danger"></span>
                 </div>
 

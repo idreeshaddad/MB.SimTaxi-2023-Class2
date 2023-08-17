@@ -64,7 +64,7 @@
                         </span>
 
                         <!-- Delete Modal -->
-                        <div class="modal fade" id="deleteModal_@driver.Id" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="deleteModal_@driver.Id" aria-labelledby="deleteModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
 
@@ -97,7 +97,7 @@
                         </span>
 
                         <!-- Assign Car Modal -->
-                        <div class="modal fade" id="assignCarModal_@driver.Id" tabindex="-1" aria-labelledby="AssignCarModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="assignCarModal_@driver.Id" aria-labelledby="AssignCarModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
 
@@ -117,7 +117,7 @@
                                             @if(Model.CarSelectList.Count() > 0){
                                                 <div class="form-group">
                                                     <label for="carDropdown" class="control-label">Car</label>
-                                                    <select id="carDropdown" name="carId" class="form-control" asp-items="@Model.CarSelectList"></select>
+                                                    <select asp-items="Model.CarSelectList" multiple="multiple" id="carDropdown" name="carIds" class="form-control"></select>
                                                 </div>
                                             }
                                             else
@@ -142,6 +142,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </td>
                 </tr>
             }
