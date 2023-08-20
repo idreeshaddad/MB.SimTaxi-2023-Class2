@@ -1,0 +1,92 @@
+﻿@using MB.SimTaxi.Web.Models.Passengers;
+@model IEnumerable<PassengerListViewModel>
+
+@{
+    ViewData["Title"] = "Passengers";
+}
+
+<div class="container">
+    <h1>Passengers</h1>
+
+    <p>
+        <a class="btn btn-primary" asp-action="Create">Create New Passenger</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhoneNumnber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gender)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Age)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var passenger in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => passenger.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => passenger.PhoneNumnber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => passenger.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => passenger.Age)
+                </td>
+                <td>
+                    <a class="text-decoration-none text-primary" asp-action="Edit" asp-route-id="@passenger.Id" data-bs-toggle="tooltip" data-bs-title="Edit">
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
+                    <a class="text-decoration-none ms-2 text-info" asp-action="Details" asp-route-id="@passenger.Id" data-bs-toggle="tooltip" data-bs-title="Details">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </a>
+
+                    <!-- Button trigger delete modal -->
+                    <span class="pointer ms-2 text-danger" data-bs-toggle="tooltip" data-bs-title="Delete">
+
+                        <i class="fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal_@passenger.Id"></i>
+
+                    </span>
+
+                    <!-- Delete Modal -->
+                    <div class="modal fade" id="deleteModal_@passenger.Id" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Passenger</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h3>Are you sure you want to delete <span class="text-danger">@passenger.FullName</span>?</h3>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <form asp-action="Delete" class="mt-3">
+                                        <input type="hidden" name="id" value="@passenger.Id" />
+                                        <a class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
+                                        <input type="submit" value="Delete" class="btn btn-danger ms-1" />
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
