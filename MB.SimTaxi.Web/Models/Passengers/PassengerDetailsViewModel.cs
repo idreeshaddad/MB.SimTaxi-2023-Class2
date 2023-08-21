@@ -11,7 +11,7 @@ namespace MB.SimTaxi.Web.Models.Passengers
         public string FullName { get; set; }
 
         [Display(Name = "Phone Number")]
-        public string PhoneNumnber { get; set; }
+        public string PhoneNumber { get; set; }
         public Gender Gender { get; set; }
 
         [Display(Name = "Date of Birth")]

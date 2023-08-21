@@ -64,30 +64,39 @@ namespace MB.SimTaxi.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Passenger passenger)
+        public async Task<IActionResult> Create(CreateUpdatePassengerViewModel passengerVM)
         {
             if (ModelState.IsValid)
             {
+                var passenger = _mapper.Map<Passenger>(passengerVM);
+
                 _context.Add(passenger);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(passenger);
+
+            return View(passengerVM);
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Passengers == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var passenger = await _context.Passengers.FindAsync(id);
+            var passenger = await _context
+                                    .Passengers
+                                    .FindAsync(id);
+
             if (passenger == null)
             {
                 return NotFound();
             }
-            return View(passenger);
+
+            var passengerVM = _mapper.Map<CreateUpdatePassengerViewModel>(passenger);
+
+            return View(passengerVM);
         }
 
         [HttpPost]

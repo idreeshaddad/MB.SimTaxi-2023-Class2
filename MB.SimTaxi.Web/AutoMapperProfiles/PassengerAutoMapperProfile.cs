@@ -10,6 +10,7 @@ namespace MB.SimTaxi.Web.AutoMapperProfiles
         {
             CreateMap<Passenger, PassengerListViewModel>();
             CreateMap<Passenger, PassengerDetailsViewModel>();
+            CreateMap<Passenger, CreateUpdatePassengerViewModel>().ReverseMap();
         }
     }
 }
