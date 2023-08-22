@@ -16,5 +16,6 @@ namespace MB.SimTaxi.Web.Data
         public DbSet<FuelType> FuelTypes { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Passenger> Passengers { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
     }
 }

@@ -1,0 +1,76 @@
+﻿@using MB.SimTaxi.Web.Models.Bookings;
+@model CreateUpdateBookingViewModel
+
+@{
+    ViewData["Title"] = "Create a Booking";
+}
+
+<div class="container">
+    <h1>Create a Booking</h1>
+    <hr />
+
+    <form asp-action="Create">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="PickupDateTime" class="control-label"></label>
+                    <input asp-for="PickupDateTime" class="form-control" />
+                    <span asp-validation-for="PickupDateTime" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-2">
+                    <label asp-for="From" class="control-label"></label>
+                    <input asp-for="From" class="form-control" />
+                    <span asp-validation-for="From" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-2">
+                    <label asp-for="To" class="control-label"></label>
+                    <input asp-for="To" class="form-control" />
+                    <span asp-validation-for="To" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-2">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-check mt-3">
+                    <input asp-for="IsPaid" class="form-check-input" />
+                    <label asp-for="IsPaid" class="form-check-label"></label>
+                    <span asp-validation-for="IsPaid" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                
+                <div class="form-group">
+                    <label asp-for="CarId" class="control-label"></label>
+                    <select asp-for="CarId" class="form-control" asp-items="@Model.CarSelectList">
+                        <option>-- Select a Car --</option>   
+                    </select>
+                </div>
+                <div class="form-group mt-2">
+                    <label asp-for="DriverId" class="control-label"></label>
+                    <select asp-for="DriverId" class="form-control" asp-items="@Model.DriverSelectList">
+                        <option>-- Select a Driver --</option>
+                    </select>
+                </div>
+                <div class="form-group mt-2">
+                    <label asp-for="PassengerIds" class="control-label"></label>
+                    <select asp-for="PassengerIds" class="form-control select2" asp-items="@Model.PassengerMultiselectList"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mt-4">
+            <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+            <input type="submit" value="Create" class="btn btn-primary ms-1" />
+        </div>
+    </form>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

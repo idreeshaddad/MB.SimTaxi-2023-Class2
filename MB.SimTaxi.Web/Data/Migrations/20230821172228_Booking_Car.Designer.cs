@@ -4,6 +4,7 @@ using MB.SimTaxi.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MB.SimTaxi.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230821172228_Booking_Car")]
+    partial class Booking_Car
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace MB.SimTaxi.Web.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("BookingPassenger", b =>
-                {
-                    b.Property<int>("BookingsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PassengerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookingsId", "PassengerId");
-
-                    b.HasIndex("PassengerId");
-
-                    b.ToTable("BookingPassenger");
-                });
 
             modelBuilder.Entity("MB.SimTaxi.Web.Data.Entities.Booking", b =>
                 {
@@ -48,15 +36,9 @@ namespace MB.SimTaxi.Web.Data.Migrations
                     b.Property<int?>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DriverId")
-                        .HasColumnType("int");
-
                     b.Property<string>("From")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("PickupDateTime")
                         .HasColumnType("datetime2");
@@ -71,8 +53,6 @@ namespace MB.SimTaxi.Web.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
-
-                    b.HasIndex("DriverId");
 
                     b.ToTable("Bookings");
                 });
@@ -429,34 +409,13 @@ namespace MB.SimTaxi.Web.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BookingPassenger", b =>
-                {
-                    b.HasOne("MB.SimTaxi.Web.Data.Entities.Booking", null)
-                        .WithMany()
-                        .HasForeignKey("BookingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MB.SimTaxi.Web.Data.Entities.Passenger", null)
-                        .WithMany()
-                        .HasForeignKey("PassengerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MB.SimTaxi.Web.Data.Entities.Booking", b =>
                 {
                     b.HasOne("MB.SimTaxi.Web.Data.Entities.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId");
 
-                    b.HasOne("MB.SimTaxi.Web.Data.Entities.Driver", "Driver")
-                        .WithMany()
-                        .HasForeignKey("DriverId");
-
                     b.Navigation("Car");
-
-                    b.Navigation("Driver");
                 });
 
             modelBuilder.Entity("MB.SimTaxi.Web.Data.Entities.Car", b =>

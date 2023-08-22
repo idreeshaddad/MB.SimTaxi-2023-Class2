@@ -1,0 +1,126 @@
+﻿@using MB.SimTaxi.Web.Models.Bookings;
+@model IEnumerable<BookingListViewModel>
+
+@{
+    ViewData["Title"] = "Bookings";
+}
+
+<div class="container">
+    <h1>Bookings</h1>
+    <hr />
+    <p>
+        <a class="btn btn-primary" asp-action="Create">Create New Booking</a>
+    </p>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PickupDateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.From)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.To)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsPaid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CarTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DriverFullName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => booking.PickupDateTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => booking.From)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => booking.To)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => booking.Price)
+                    </td>
+                    <td>
+                        @if (booking.IsPaid)
+                        {
+                            <i class="fa-solid fa-circle-check text-success"></i>
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-circle-xmark text-danger"></i>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => booking.CarTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => booking.DriverFullName)
+                    </td>
+                    <td>
+                        <a class="text-decoration-none text-primary" asp-action="Edit" asp-route-id="@booking.Id" data-bs-toggle="tooltip" data-bs-title="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                        <a class="text-decoration-none ms-2 text-info" asp-action="Details" asp-route-id="@booking.Id" data-bs-toggle="tooltip" data-bs-title="Details">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </a>
+
+                        <!-- Button trigger delete modal -->
+                        <span class="pointer ms-2 text-danger" data-bs-toggle="tooltip" data-bs-title="Delete">
+
+                            <i class="fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal_@booking.Id"></i>
+
+                        </span>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deleteModal_@booking.Id" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Booking</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>Are you sure you want to delete booking number: <span class="text-danger">@booking.Id</span>?</h3>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <form asp-action="Delete" class="mt-3">
+                                            <input type="hidden" name="id" value="@booking.Id" />
+                                            <a class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
+                                            <input type="submit" value="Delete" class="btn btn-danger ms-1" />
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Button trigger Pay modal -->
+                        <span class="pointer ms-2 text-primary" data-bs-toggle="tooltip" data-bs-title="Pay">
+
+                            <i class="fa-brands fa-paypal" data-bs-toggle="modal" data-bs-target="#deleteModal_@booking.Id"></i>
+
+                        </span>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
