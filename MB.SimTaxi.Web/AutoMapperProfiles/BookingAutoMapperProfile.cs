@@ -10,6 +10,7 @@ namespace MB.SimTaxi.Web.AutoMapperProfiles
         {
             CreateMap<Booking, BookingListViewModel>();
             CreateMap<Booking, CreateUpdateBookingViewModel>().ReverseMap();
+            CreateMap<Booking, BookingDetailsViewModel>();
         }
     }
 }

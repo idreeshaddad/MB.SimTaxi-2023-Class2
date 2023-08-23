@@ -29,6 +29,8 @@ namespace MB.SimTaxi.Web.Controllers
         {
             var bookings = await _context
                                     .Bookings
+                                    .Include(booking => booking.Car)
+                                    .Include(booking => booking.Driver)
                                     .ToListAsync();
 
             var bookingVMs = _mapper.Map<List<BookingListViewModel>>(bookings);
@@ -43,16 +45,21 @@ namespace MB.SimTaxi.Web.Controllers
                 return NotFound();
             }
 
-            var booking = await _context.Bookings
-                .Include(b => b.Car)
-                .Include(b => b.Driver)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var booking = await _context
+                                    .Bookings
+                                    .Include(b => b.Car)
+                                    .Include(b => b.Driver)
+                                    .Include(b => b.Passengers)
+                                    .FirstOrDefaultAsync(m => m.Id == id);
+
             if (booking == null)
             {
                 return NotFound();
             }
 
-            return View(booking);
+            var bookingVM = _mapper.Map<BookingDetailsViewModel>(booking);
+
+            return View(bookingVM);
         }
 
         public IActionResult Create()
@@ -75,6 +82,8 @@ namespace MB.SimTaxi.Web.Controllers
             if (ModelState.IsValid)
             {
                 var booking = _mapper.Map<Booking>(bookingVM);
+
+                await AddPassengersToBooking(booking, bookingVM.PassengerIds);
 
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
@@ -183,6 +192,16 @@ namespace MB.SimTaxi.Web.Controllers
         private bool BookingExists(int id)
         {
             return (_context.Bookings?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private async Task AddPassengersToBooking(Booking booking, List<int> passengerIds)
+        {
+            var passengers = await _context
+                                        .Passengers
+                                        .Where(passenger => passengerIds.Contains(passenger.Id))
+                                        .ToListAsync();
+
+            booking.Passengers.AddRange(passengers);
         }
 
         #endregion
