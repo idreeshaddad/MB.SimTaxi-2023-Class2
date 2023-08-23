@@ -46,13 +46,13 @@
                 <div class="form-group">
                     <label asp-for="CarId" class="control-label"></label>
                     <select asp-for="CarId" class="form-control" asp-items="@Model.CarSelectList">
-                        <option>-- Select a Car --</option>   
+                        <option value="">-- Select a Car --</option>   
                     </select>
                 </div>
                 <div class="form-group mt-2">
                     <label asp-for="DriverId" class="control-label"></label>
                     <select asp-for="DriverId" class="form-control" asp-items="@Model.DriverSelectList">
-                        <option>-- Select a Driver --</option>
+                        <option value="">-- Select a Driver --</option>
                     </select>
                 </div>
                 <div class="form-group mt-2">

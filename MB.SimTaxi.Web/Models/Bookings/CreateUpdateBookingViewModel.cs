@@ -24,11 +24,14 @@ namespace MB.SimTaxi.Web.Models.Bookings
 
 
         [Display(Name = "Car")]
+        [ValidateNever]
         public int? CarId { get; set; }
 
 
         [Display(Name = "Driver")]
+        [ValidateNever]
         public int? DriverId { get; set; }
+
 
         [Display(Name = "Passengers")]
         public List<int> PassengerIds { get; set; }

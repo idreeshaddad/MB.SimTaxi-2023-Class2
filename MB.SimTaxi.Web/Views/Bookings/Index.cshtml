@@ -44,7 +44,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => booking.PickupDateTime)
+                        @booking.PickupDateTime.ToString("dd/MMM/yyyy - hh:mm")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => booking.From)
