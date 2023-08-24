@@ -83,7 +83,7 @@ namespace MB.SimTaxi.Web.Controllers
             {
                 var booking = _mapper.Map<Booking>(bookingVM);
 
-                await AddPassengersToBooking(booking, bookingVM.PassengerIds);
+                await UpdateBookingPassengers(booking, bookingVM.PassengerIds);
 
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
@@ -99,32 +99,58 @@ namespace MB.SimTaxi.Web.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Bookings == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var booking = await _context.Bookings.FindAsync(id);
+
+            var booking = await _context
+                                    .Bookings
+                                    .Include(booking => booking.Passengers)
+                                    .Where(booking => booking.Id == id)
+                                    .SingleOrDefaultAsync();
+
             if (booking == null)
             {
                 return NotFound();
             }
-            ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Id", booking.CarId);
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Id", booking.DriverId);
-            return View(booking);
+
+            var bookingVM = _mapper.Map<CreateUpdateBookingViewModel>(booking);
+
+            bookingVM.CarSelectList = new SelectList(_context.Cars, "Id", "Title", bookingVM.CarId);
+            bookingVM.DriverSelectList = new SelectList(_context.Drivers, "Id", "FullName", bookingVM.DriverId);
+            bookingVM.PassengerMultiselectList = new MultiSelectList(_context.Passengers, "Id", "FullName", bookingVM.PassengerIds);
+
+            return View(bookingVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PickupDateTime,From,To,Price,CarId,DriverId")] Booking booking)
+        public async Task<IActionResult> Edit(int id, CreateUpdateBookingViewModel bookingVM)
         {
-            if (id != booking.Id)
+            if (id != bookingVM.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
+                var booking = await _context
+                                .Bookings
+                                .Include(booking => booking.Passengers)
+                                .Where(booking => booking.Id == id)
+                                .SingleOrDefaultAsync();
+
+                if(booking == null)
+                {
+                    return NotFound();
+                }
+
+                _mapper.Map(bookingVM, booking);
+
+                await UpdateBookingPassengers(booking, bookingVM.PassengerIds);
+
                 try
                 {
                     _context.Update(booking);
@@ -132,7 +158,7 @@ namespace MB.SimTaxi.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookingExists(booking.Id))
+                    if (!BookingExists(bookingVM.Id))
                     {
                         return NotFound();
                     }
@@ -143,9 +169,13 @@ namespace MB.SimTaxi.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CarId"] = new SelectList(_context.Cars, "Id", "Id", booking.CarId);
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Id", booking.DriverId);
-            return View(booking);
+
+
+            bookingVM.CarSelectList = new SelectList(_context.Cars, "Id", "Title", bookingVM.CarId);
+            bookingVM.DriverSelectList = new SelectList(_context.Drivers, "Id", "FullName", bookingVM.DriverId);
+            bookingVM.PassengerMultiselectList = new MultiSelectList(_context.Passengers, "Id", "FullName", bookingVM.PassengerIds);
+
+            return View(bookingVM);
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -185,6 +215,25 @@ namespace MB.SimTaxi.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PayBooking(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            booking.IsPaid = true;
+            booking.PaymentDate = DateTime.Now;
+
+            _context.Update(booking);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         #endregion
 
         #region Private Functions
@@ -194,13 +243,14 @@ namespace MB.SimTaxi.Web.Controllers
             return (_context.Bookings?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        private async Task AddPassengersToBooking(Booking booking, List<int> passengerIds)
+        private async Task UpdateBookingPassengers(Booking booking, List<int> passengerIds)
         {
             var passengers = await _context
                                         .Passengers
                                         .Where(passenger => passengerIds.Contains(passenger.Id))
                                         .ToListAsync();
 
+            booking.Passengers.Clear();
             booking.Passengers.AddRange(passengers);
         }
 

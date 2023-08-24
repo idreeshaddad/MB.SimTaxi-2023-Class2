@@ -15,6 +15,8 @@ namespace MB.SimTaxi.Web.Models.Bookings
         [Display(Name = "Paid")]
         public bool IsPaid { get; set; }
 
+        public DateTime? PaymentDate { get; set; }
+
 
         [Display(Name = "Car")]
         public string CarTitle { get; set; }

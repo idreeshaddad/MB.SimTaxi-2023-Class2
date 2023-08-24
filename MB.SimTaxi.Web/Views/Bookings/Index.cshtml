@@ -58,7 +58,7 @@
                     <td>
                         @if (booking.IsPaid)
                         {
-                            <i class="fa-solid fa-circle-check text-success"></i>
+                            <i class="fa-solid fa-circle-check text-success" data-bs-toggle="tooltip" data-bs-title="Booking was paid on @booking.PaymentDate.Value.ToString(" dd /MMM/yyyy - hh:mm")"></i>
                         }
                         else
                         {
@@ -111,12 +111,40 @@
                             </div>
                         </div>
 
-                        <!-- Button trigger Pay modal -->
-                        <span class="pointer ms-2 text-primary" data-bs-toggle="tooltip" data-bs-title="Pay">
+                        @if (booking.IsPaid == false)
+                        {
+                            <!-- Button trigger Pay modal -->
+                            <span class="pointer ms-2 text-primary" data-bs-toggle="tooltip" data-bs-title="Pay">
 
-                            <i class="fa-brands fa-paypal" data-bs-toggle="modal" data-bs-target="#deleteModal_@booking.Id"></i>
+                                <i class="fa-brands fa-paypal" data-bs-toggle="modal" data-bs-target="#payModal_@booking.Id"></i>
 
-                        </span>
+                            </span>
+
+                            <!-- Pay Modal -->
+                            <div class="modal fade" id="payModal_@booking.Id" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="payModalLabel">Pay for Booking</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h3>Are you sure you want to set booking number: <span class="text-danger">@booking.Id</span> as paid?</h3>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <form asp-action="PayBooking" class="mt-3">
+                                                <input type="hidden" name="id" value="@booking.Id" />
+                                                <a class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
+                                                <input type="submit" value="Pay" class="btn btn-danger ms-1" />
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
 
                     </td>
                 </tr>

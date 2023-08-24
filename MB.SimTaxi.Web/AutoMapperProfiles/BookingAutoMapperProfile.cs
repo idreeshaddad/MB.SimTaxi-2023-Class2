@@ -9,8 +9,13 @@ namespace MB.SimTaxi.Web.AutoMapperProfiles
         public BookingAutoMapperProfile()
         {
             CreateMap<Booking, BookingListViewModel>();
-            CreateMap<Booking, CreateUpdateBookingViewModel>().ReverseMap();
             CreateMap<Booking, BookingDetailsViewModel>();
+
+            CreateMap<CreateUpdateBookingViewModel, Booking>();
+
+            CreateMap<Booking, CreateUpdateBookingViewModel>()
+                .ForMember(dest => dest.PassengerIds,
+                        opts => opts.MapFrom(src => src.Passengers.Select(passenger => passenger.Id).ToList()));
         }
     }
 }
